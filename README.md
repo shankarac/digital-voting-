@@ -19,8 +19,8 @@ After setup:
 Requirements: **Python 3.11+**, **Node.js 18+**, **Git** (for cloning).
 
 ```bat
-git clone <your-repo-url>
-cd digital-voting-system
+git clone https://github.com/shankarac/digital-voting-.git
+cd digital-voting-
 setupdev.bat
 runapplication.bat
 ```
@@ -62,8 +62,9 @@ Protected actions (require sign-in):
 
 Public (no login):
 
-- List proposals
-- View proposal details and counts
+- List proposals and see vote counts on the dashboard
+
+Sign-in required to open a proposal ballot, vote, or create a proposal.
 
 Admin close:
 
@@ -120,19 +121,52 @@ runapplication.bat   Start API + frontend
 | `JWT_SECRET` | `change-me-in-production` | JWT signing secret |
 | `JWT_EXPIRE_MINUTES` | `10080` (7 days) | Token lifetime |
 
-## Submitting this challenge
+## Challenge submission
 
-1. Push this folder to a **public or private GitHub repository**.
-2. Confirm `setupdev.bat` and `runapplication.bat` work on a clean machine.
-3. Share the repository link with:
-   - This README (setup + demo logins)
-   - Note that reviewers should open http://127.0.0.1:3000 after `runapplication.bat`
+**Repository:** https://github.com/shankarac/digital-voting-
 
-Example submission text:
+### Setup instructions (Windows)
 
-> GitHub: `https://github.com/<username>/community-digital-voting`  
-> Setup: run `setupdev.bat`, then `runapplication.bat`.  
-> Demo login: `amina@community.local` / `voter1234`
+1. Install **Python 3.11+** and **Node.js 18+**.
+2. Clone and enter the repo:
+   ```bat
+   git clone https://github.com/shankarac/digital-voting-.git
+   cd digital-voting-
+   ```
+3. One-time setup:
+   ```bat
+   setupdev.bat
+   ```
+   Creates `env`, installs packages, runs migrations, seeds demo users.
+4. Start the app:
+   ```bat
+   runapplication.bat
+   ```
+5. Open **http://127.0.0.1:3000** (frontend). API docs: **http://127.0.0.1:8000/docs**
+6. Optional sample proposals:
+   ```bat
+   env\Scripts\python.exe -c "import sqlite3; c=sqlite3.connect('voting.db'); c.executescript(open('seed_data.sql',encoding='utf-8').read()); c.commit()"
+   ```
+7. Run tests:
+   ```bat
+   env\Scripts\python.exe -m pytest
+   ```
+
+### Demo login
+
+- Voter: `amina@community.local` / `voter1234`
+- Admin: `admin@community.local` / `admin1234`
+
+### Deliverables in this repo
+
+| Item | Location |
+| --- | --- |
+| FastAPI backend | `app/` |
+| SQLite + Alembic | `alembic/`, `voting.db` after setup |
+| React frontend | `frontend/` |
+| OpenAPI Python SDK | `voting_sdk/` |
+| Setup scripts | `setupdev.bat`, `runapplication.bat` |
+| Backend tests | `tests/` |
 
 ## Notes
 
