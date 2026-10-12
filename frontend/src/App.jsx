@@ -22,7 +22,7 @@ function AppShell() {
 
   function handleLogout() {
     logout();
-    window.location.hash = "#/";
+    window.location.hash = "#/login";
   }
 
   useEffect(() => {
