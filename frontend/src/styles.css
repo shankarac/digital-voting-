@@ -93,6 +93,36 @@ button.chip.on {
 .top a { color: #f3efe4; text-decoration: none; }
 .top a[aria-current="page"] { text-decoration: underline; text-underline-offset: 4px; }
 
+.top a.button,
+.top button.logout-btn,
+.top button.secondary {
+  color: #f3efe4;
+  border-color: #d7c7a4;
+}
+
+.top a.button {
+  background: transparent;
+}
+
+.top button.logout-btn {
+  background: #f3efe4;
+  color: #1b1914;
+  border-color: #f3efe4;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.top button.logout-btn:hover {
+  background: #fffdf8;
+}
+
+.top a.button.primary,
+.top a.button:not(.secondary) {
+  background: #f3efe4;
+  color: #1b1914;
+  border-color: #f3efe4;
+}
+
 .top-row, nav, .actions, .toolbar, .section-head, .card-top, .filters {
   display: flex;
   gap: 12px;
@@ -131,7 +161,16 @@ button.chip.on {
   flex-wrap: wrap;
 }
 
-.account-box { justify-content: flex-end; }
+.account-box {
+  justify-content: flex-end;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.refresh-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
 
 .account-chip {
   display: flex;

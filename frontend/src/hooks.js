@@ -6,19 +6,30 @@ export function usePolled(url) {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const urlRef = useRef(url);
   const overdueRef = useRef("");
   urlRef.current = url;
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (options = {}) => {
+    const manual = options.manual === true;
+    if (manual) {
+      setRefreshing(true);
+    }
     try {
-      const response = await api.get(urlRef.current);
+      const response = await api.get(urlRef.current, {
+        params: manual ? { _: Date.now() } : undefined,
+        headers: manual ? { "Cache-Control": "no-cache", Pragma: "no-cache" } : undefined,
+      });
       setData(response.data);
       setError("");
     } catch (err) {
       setError(errorMessage(err));
     } finally {
       setLoading(false);
+      if (manual) {
+        setRefreshing(false);
+      }
     }
   }, []);
 
@@ -70,5 +81,5 @@ export function usePolled(url) {
     return () => clearTimeout(timer);
   }, [data, refresh]);
 
-  return { data, error, loading, refresh };
+  return { data, error, loading, refreshing, refresh };
 }

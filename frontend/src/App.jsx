@@ -20,6 +20,11 @@ function AppShell() {
   const [hash, setHash] = useState(() => window.location.hash || "#/");
   const route = routeOf(hash);
 
+  function handleLogout() {
+    logout();
+    window.location.hash = "#/";
+  }
+
   useEffect(() => {
     const onHash = () => setHash(window.location.hash || "#/");
     window.addEventListener("hashchange", onHash);
@@ -76,8 +81,13 @@ function AppShell() {
                     {isAdmin ? " · admin" : ""}
                   </span>
                 </div>
-                <button type="button" className="secondary" onClick={logout}>
-                  Sign out
+                <button
+                  type="button"
+                  className="logout-btn"
+                  onClick={handleLogout}
+                  aria-label={`Log out ${user.display_name}`}
+                >
+                  Log out
                 </button>
               </>
             ) : (

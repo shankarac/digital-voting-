@@ -11,7 +11,7 @@ const FILTERS = [
 ];
 
 export function ProposalList({ signedIn = false }) {
-  const { data, error, loading, refresh } = usePolled("/proposals/");
+  const { data, error, loading, refreshing, refresh } = usePolled("/proposals/");
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
   const proposals = Array.isArray(data) ? data : [];
@@ -38,8 +38,14 @@ export function ProposalList({ signedIn = false }) {
             {!signedIn ? " Sign in when you are ready to vote." : ""}
           </p>
         </div>
-        <button type="button" className="secondary" onClick={refresh}>
-          Refresh
+        <button
+          type="button"
+          className="secondary refresh-btn"
+          disabled={refreshing}
+          aria-busy={refreshing}
+          onClick={() => refresh({ manual: true })}
+        >
+          {refreshing ? "Refreshing…" : "Refresh"}
         </button>
       </div>
 
