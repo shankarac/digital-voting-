@@ -22,7 +22,8 @@ function AppShell() {
 
   function handleLogout() {
     logout();
-    window.location.hash = "#/login";
+    setHash("#/login");
+    window.location.replace(`${window.location.pathname}${window.location.search}#/login`);
   }
 
   useEffect(() => {
@@ -32,11 +33,14 @@ function AppShell() {
   }, []);
 
   useEffect(() => {
-    if (loading) return;
-    if (route.name === "new" && !isAuthenticated) {
-      window.location.hash = "#/login";
+    if (loading || isAuthenticated) return;
+    if (route.name === "detail" || route.name === "new") {
+      if (window.location.hash !== "#/login") {
+        window.location.replace(`${window.location.pathname}${window.location.search}#/login`);
+      }
+      setHash("#/login");
     }
-  }, [loading, route.name, isAuthenticated]);
+  }, [loading, isAuthenticated, route.name]);
 
   if (loading) {
     return (
