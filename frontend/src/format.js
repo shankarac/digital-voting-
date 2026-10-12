@@ -39,6 +39,12 @@ export function errorMessage(error) {
   if (!error?.response) {
     return "Cannot reach the voting API. Start the backend on port 8000.";
   }
+  if (error.response.status === 404 && String(error.config?.url || "").includes("/auth/")) {
+    return "Auth API not found. Close the old backend window and run runapplication.bat again.";
+  }
+  if (error.response.status === 404) {
+    return "API route not found. Restart the backend, then try again.";
+  }
   return "Request failed";
 }
 
